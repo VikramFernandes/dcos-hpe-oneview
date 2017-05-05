@@ -1,0 +1,12 @@
+README.rst
+setup.cfg
+dcos_oneview/__init__.py
+dcos_oneview/cli.py
+dcos_oneview/constants.py
+dcos_oneview/oneview_service_client.py
+dcos_oneview.egg-info/PKG-INFO
+dcos_oneview.egg-info/SOURCES.txt
+dcos_oneview.egg-info/dependency_links.txt
+dcos_oneview.egg-info/entry_points.txt
+dcos_oneview.egg-info/requires.txt
+dcos_oneview.egg-info/top_level.txt

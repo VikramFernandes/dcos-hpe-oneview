@@ -1,0 +1,3 @@
+[console_scripts]
+dcos-oneview = dcos_oneview.cli:main
+
