@@ -44,6 +44,9 @@ def main():
     elif args['--capacity']:
         oneview_service_client.get_capacity()
 
+    elif args['--alive']:
+        oneview_service_client.get_base_service()
+
     elif args['--addnode'] and args['--count']:
         print("Provision node ...")
         count = args["--count"]

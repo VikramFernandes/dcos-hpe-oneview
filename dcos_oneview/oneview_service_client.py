@@ -21,6 +21,7 @@
 ###
 
 import requests, json, sys, os, subprocess
+from pprint import pprint
 
 master_uri = ''
 service_endpoint = '/service/hpe-oneview'
@@ -52,8 +53,8 @@ def get_base_service():
     url = master_uri+service_endpoint
     response = requests.get(url)
     if (response.ok):
-        sys.stdout("get base service response: ", response.json())
-        return response.json()
+        format_response(response.json(),'endpoint')
+        return
     else:
         response.raise_for_status()
 
@@ -61,12 +62,46 @@ def get_status():
     get_master_url()
     url = master_uri+service_endpoint+status_uri
     response = requests.get(url, verify=False, headers={'Authorization': 'token='+dcos_auth_token})
-    sys.stdout("response in status code: ", response.status_code)
     if (response.status_code == 200):
-        sys.stdout("get status response: ", response.json())
-        return response.json()
+        format_response(response.json(), 'status')
+        return
     else:
         response.raise_for_status()
+
+def format_response(resp_json, method):
+    if method == 'endpoint':
+        print("status : ",resp_json['status'])
+
+    if method == 'capacity':
+        print("Available Capacity : ",len(resp_json['available']))
+        print("{:<25} {:<35}".format('Name', 'Model'))
+        for row in resp_json['available']:
+            print("{:<25} {:<35}".format(row['name'], row['model']))
+
+    if method == 'add_node':
+        print(resp_json['status'])
+        if 'requested' in resp_json:
+            print('Building %d servers'%(resp_json['requested']))
+            print("{:<20} {:<15} {:<40}".format('Status', 'Complete %', 'ServerProfile URI'))
+            for row in resp_json['profileList']:
+                print("{:<20} {:<15} {:<40}".format(row['status'], row['percentComplete'], row['serverProfileUri']))
+
+    if method == 'remove_node':
+        print(resp_json['status'])
+        if 'requested' in resp_json:
+            print('Removing %d servers'%(resp_json['requested']))
+            print("{:<20} {:<30} {:<40}".format('Name', 'URI', 'ServerHW URI'))
+            for row in resp_json['profiles']:
+                print("{:<20} {:<30} {:<40}".format(row['name'], row['uri'], row['serverHardwareUri']))
+
+    if method == 'status':
+        if int(resp_json['Count']) == 0:
+            print("All tasks complete")
+        else:
+            print("Outstanding actions # ", resp_json['Count'])
+            print("{:<20} {:<15} {:<45}".format('Status', 'Complete %', 'ServerProfile URI'))
+            for row in resp_json['profile']:
+                print("{:<20} {:<15} {:<45}".format(row['status'], row['percentComplete'], row['serverProfileUri']))
 
 def get_capacity():
     get_master_url()
@@ -74,8 +109,8 @@ def get_capacity():
 
     response = requests.get(url, verify=False, headers={'Authorization': 'token='+dcos_auth_token})
     if (response.status_code == 200):
-        sys.stdout("get capacity response: ", response.json())
-        return response.json()
+        format_response(response.json(),'capacity')
+        return
     else:
         response.raise_for_status()
 
@@ -85,12 +120,11 @@ def add_node(nos):
 
     data = { "count" : nos }
     data_json = json.dumps(data)
-    headers = {'Content-Type': 'application/json'}
-    response = requests.post(url, data=data_json, headers=headers)
+    response = requests.post(url, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
 
     if (response.status_code == 200):
-        sys.stdout("addnode response: ", response.json())
-        return response.json()
+        format_response(response.json(),'add_node')
+        return
     else:
         response.raise_for_status()
 
@@ -100,14 +134,10 @@ def remove_node(nos):
 
     data = { "count" : nos }
     data_json = json.dumps(data)
-    headers = {'Content-Type': 'application/json'}
-    response = requests.post(url, data=data_json, headers=headers)
+    response = requests.post(url, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
 
     if (response.status_code == 200):
-        sys.stdout("removenode response: ", response.json())
-        return response.json()
+        format_response(response.json(), 'remove_node')
+        return
     else:
         response.raise_for_status()
-
-if __name__ == '__main__':
-    get_capacity()
