@@ -1,12 +1,12 @@
 Metadata-Version: 1.1
 Name: dcos-oneview
-Version: 1.0.0
+Version: 0.0.0
 Summary: DCOS OneView Command Line Interface
 Home-page: https://github.com/HewlettPackard/mesosphere-universe-oneview
 Author: Hewlett Packard Enterprise
 Author-email: ComposableAPIsupport@hpe.com
-License: MIT
-Description: DCOS oneview Subcommand
+License: UNKNOWN
+Description: DCOS HelloWorld Subcommand
         ==========================
         
         .. image:: https://secure.travis-ci.org/mesosphere/dcos-helloworld.svg

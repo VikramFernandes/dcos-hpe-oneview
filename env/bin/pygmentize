@@ -1,4 +1,4 @@
-#!/root/mesos/dcos-oneview/env/bin/python
+#!/root/oneview/dcos-hpe-oneview/env/bin/python
 
 # -*- coding: utf-8 -*-
 import re
