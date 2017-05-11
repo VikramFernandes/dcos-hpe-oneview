@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['dcos_helloworld/cli.py'],
+a = Analysis(['dcos_oneview/cli.py'],
              pathex=[os.getcwd(), 'env/lib/python2.7/site-packages', 'cli/env/lib/python2.7/site-packages'],
              binaries=None,
             datas=[],
@@ -21,7 +21,7 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='dcos-helloworld',
+          name='dcos-oneview',
           debug=False,
           strip=False,
           upx=True,

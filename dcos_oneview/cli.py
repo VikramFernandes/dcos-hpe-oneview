@@ -22,14 +22,17 @@
 """DCOS OneView Example Subcommand
 
 Usage:
+    dcos-oneview --info
+    dcos-oneview --alive
+    dcos-oneview --help
     dcos-oneview --status
     dcos-oneview --capacity
     dcos-oneview --addnode --count=NO_OF_NODES
     dcos-oneview --removenode --count=NO_OF_NODES
 
-Options:
-    --help           Show this screen
-    --version        Show version
+    Options:
+      --help           Show this screen
+      --version        Show version
 """
 from docopt import docopt, DocoptExit
 from dcos_oneview import oneview_service_client
@@ -39,35 +42,31 @@ from dcos_oneview import constants
 def main():
     args = docopt(__doc__,version='dcos-oneview version {}'.format(constants.version), help=False)
 
-    if args['status']:
+    if args['--status']:
         oneview_service_client.get_status()
 
-    elif args['capacity']:
+    elif args['--capacity']:
         oneview_service_client.get_capacity()
 
-    elif args['oneview'] and args['--info']:
+    elif args['--info']:
         print('Add/Remove dcos nodes from HPE Synergy')
-
-    elif args['--help'] or args['-h']:
-        with open('help.txt', 'r') as fin:
-            print (fin.read())
 
     elif args['--alive']:
         oneview_service_client.get_base_service()
 
-    elif args['addnode'] and args['--count']:
+    elif args['--addnode'] and args['--count']:
         print("Provision node ...")
         count = args["--count"]
         oneview_service_client.add_node(count)
 
-    elif args['removenode'] and args['--count']:
+    elif args['--removenode'] and args['--count']:
         print("Release node ...")
         count = args["--count"]
         oneview_service_client.remove_node(count)
 
     else:
         print(__doc__)
-	return 1
+        return 1
 
     return 0
 

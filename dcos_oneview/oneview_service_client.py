@@ -20,7 +20,9 @@
 # THE SOFTWARE.
 ###
 
-import requests, json, subprocess
+import requests
+import json
+import subprocess
 
 master_uri = ''
 service_endpoint = '/service/hpe-oneview'
@@ -32,7 +34,7 @@ removenode_uri = '/ov2mesos/removenode'
 dcos_auth_token = ''
 
 def get_master_url():
-    proc = subprocess.Popen('dcos config show core.dcos_url', stdout=subprocess.PIPE)
+    proc = subprocess.Popen('dcos config show core.dcos_url',shell=True, stdout=subprocess.PIPE)
     uri = proc.stdout.read()
     uri_str = uri.decode('utf-8')
     global master_uri
@@ -41,7 +43,7 @@ def get_master_url():
     get_auth_token()
 
 def get_auth_token():
-    proc = subprocess.Popen('dcos config show core.dcos_acs_token', stdout=subprocess.PIPE)
+    proc = subprocess.Popen('dcos config show core.dcos_acs_token', shell=True, stdout=subprocess.PIPE)
     token = proc.stdout.read()
     token_str = token.decode('utf-8')
     global dcos_auth_token
@@ -119,7 +121,7 @@ def add_node(nos):
 
     data = { "count" : nos }
     data_json = json.dumps(data)
-    response = requests.post(url, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
+    response = requests.post(url, verify=False, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
 
     if (response.status_code == 200):
         format_response(response.json(),'add_node')
@@ -133,7 +135,7 @@ def remove_node(nos):
 
     data = { "count" : nos }
     data_json = json.dumps(data)
-    response = requests.post(url, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
+    response = requests.post(url, verify=False, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
 
     if (response.status_code == 200):
         format_response(response.json(), 'remove_node')
