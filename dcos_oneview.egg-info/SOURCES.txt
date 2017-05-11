@@ -3,6 +3,7 @@ setup.cfg
 dcos_oneview/__init__.py
 dcos_oneview/cli.py
 dcos_oneview/constants.py
+dcos_oneview/help.txt
 dcos_oneview/oneview_service_client.py
 dcos_oneview.egg-info/PKG-INFO
 dcos_oneview.egg-info/SOURCES.txt

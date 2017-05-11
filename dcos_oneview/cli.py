@@ -35,24 +35,32 @@ from docopt import docopt, DocoptExit
 from dcos_oneview import oneview_service_client
 from dcos_oneview import constants
 
+
 def main():
     args = docopt(__doc__,version='dcos-oneview version {}'.format(constants.version), help=False)
 
-    if args['--status']:
+    if args['status']:
         oneview_service_client.get_status()
 
-    elif args['--capacity']:
+    elif args['capacity']:
         oneview_service_client.get_capacity()
+
+    elif args['oneview'] and args['--info']:
+        print('Add/Remove dcos nodes from HPE Synergy')
+
+    elif args['--help'] or args['-h']:
+        with open('help.txt', 'r') as fin:
+            print (fin.read())
 
     elif args['--alive']:
         oneview_service_client.get_base_service()
 
-    elif args['--addnode'] and args['--count']:
+    elif args['addnode'] and args['--count']:
         print("Provision node ...")
         count = args["--count"]
         oneview_service_client.add_node(count)
 
-    elif args['--removenode'] and args['--count']:
+    elif args['removenode'] and args['--count']:
         print("Release node ...")
         count = args["--count"]
         oneview_service_client.remove_node(count)

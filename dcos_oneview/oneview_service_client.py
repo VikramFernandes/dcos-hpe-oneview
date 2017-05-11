@@ -20,8 +20,7 @@
 # THE SOFTWARE.
 ###
 
-import requests, json, sys, os, subprocess
-from pprint import pprint
+import requests, json, subprocess
 
 master_uri = ''
 service_endpoint = '/service/hpe-oneview'

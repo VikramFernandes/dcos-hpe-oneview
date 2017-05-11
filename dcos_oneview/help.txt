@@ -1,0 +1,15 @@
+Add/Remove DCOS slave nodes from HPE Synergy
+
+Usage:
+    dcos oneview status
+    dcos oneview capacity
+    dcos oneview addnode --count <count>
+    dcos oneview removenode --count <count>
+
+Options:
+    -h, --help                  Show this screen
+    --info                      Show a short description of this subcommand
+    --version                   Show version
+
+Positional arguments:
+    <count>                    Requested number
