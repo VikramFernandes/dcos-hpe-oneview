@@ -23,6 +23,9 @@
 import requests
 import json
 import subprocess
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+# supress InsecureRequestWarning
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 master_uri = ''
 service_endpoint = '/service/hpe-oneview'
@@ -52,7 +55,7 @@ def get_auth_token():
 def get_base_service():
     get_master_url()
     url = master_uri+service_endpoint
-    response = requests.get(url)
+    response = requests.get(url, verify=False, headers={'Authorization': 'token='+dcos_auth_token})
     if (response.ok):
         format_response(response.json(),'endpoint')
         return
@@ -71,7 +74,7 @@ def get_status():
 
 def format_response(resp_json, method):
     if method == 'endpoint':
-        print("status : ",resp_json['status'])
+        print("I am {:<10}".format(resp_json['status']))
 
     if method == 'capacity':
         print("Available Capacity : ",len(resp_json['available']))
