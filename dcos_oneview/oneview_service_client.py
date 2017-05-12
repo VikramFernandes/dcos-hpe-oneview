@@ -77,13 +77,13 @@ def format_response(resp_json, method):
         print("I am {:<10}".format(resp_json['status']))
 
     if method == 'capacity':
-        print("Available Capacity : ",len(resp_json['available']))
-        print("{:<25} {:<35}".format('Name', 'Model'))
-        for row in resp_json['available']:
-            print("{:<25} {:<35}".format(row['name'], row['model']))
+        print("Available Capacity {:<3}".format(len(resp_json['available'])))
+        if len(resp_json['available']) > 0:
+            print("{:<25} {:<35}".format('Name', 'Model'))
+            for row in resp_json['available']:
+                print("{:<25} {:<35}".format(row['name'], row['model']))
 
     if method == 'add_node':
-        print(resp_json['status'])
         if 'requested' in resp_json:
             print('Building %d servers'%(resp_json['requested']))
             print("{:<20} {:<15} {:<40}".format('Status', 'Complete %', 'ServerProfile URI'))
@@ -93,10 +93,13 @@ def format_response(resp_json, method):
     if method == 'remove_node':
         print(resp_json['status'])
         if 'requested' in resp_json:
-            print('Removing %d servers'%(resp_json['requested']))
-            print("{:<20} {:<30} {:<40}".format('Name', 'URI', 'ServerHW URI'))
-            for row in resp_json['profiles']:
-                print("{:<20} {:<30} {:<40}".format(row['name'], row['uri'], row['serverHardwareUri']))
+            print("Removing {:<3} servers".format(resp_json['requested']))
+            if resp_json['profiles'] is not None:
+                print("{:<20} {:<30} {:<40}".format('Name', 'URI', 'ServerHW URI'))
+                for row in resp_json['profiles']:
+                    print("{:<20} {:<30} {:<40}".format(row['name'], row['uri'], row['serverHardwareUri']))
+            else:
+                print("Server successfully removed")
 
     if method == 'status':
         if int(resp_json['Count']) == 0:
