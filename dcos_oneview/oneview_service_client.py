@@ -125,7 +125,7 @@ def add_node(nos):
     get_master_url()
     url = master_uri+service_endpoint+addnode_uri
 
-    data = { "count" : nos }
+    data = { "count" : nos, "dcosMaster" : master_uri.strip("https\://") }
     data_json = json.dumps(data)
     response = requests.post(url, verify=False, data=data_json, headers={'Content-Type': 'application/json','Authorization': 'token='+dcos_auth_token})
 
