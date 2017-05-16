@@ -22,13 +22,13 @@
 """DCOS OneView Example Subcommand
 
 Usage:
-    dcos-oneview --info
-    dcos-oneview --alive
-    dcos-oneview --help
-    dcos-oneview --status
-    dcos-oneview --capacity
-    dcos-oneview --addnode --count=NO_OF_NODES
-    dcos-oneview --removenode --count=NO_OF_NODES
+    dcos hpe-oneview --info
+    dcos hpe-oneview --alive
+    dcos hpe-oneview --help
+    dcos hpe-oneview --status
+    dcos hpe-oneview --capacity
+    dcos hpe-oneview --addnode --count=NO_OF_NODES
+    dcos hpe-oneview --removenode --count=NO_OF_NODES
 
     Options:
       --help           Show this screen
