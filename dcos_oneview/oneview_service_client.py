@@ -87,7 +87,7 @@ def format_response(resp_json, method):
         if 'requested' in resp_json:
             print('Building %d servers'%(resp_json['requested']))
             print("{:<20} {:<15} {:<40}".format('Status', 'Complete %', 'ServerProfile URI'))
-            for row in resp_json['profileList']:
+            for row in resp_json['status']:
                 print("{:<20} {:<15} {:<40}".format(row['status'], row['percentComplete'], row['serverProfileUri']))
 
     if method == 'remove_node':
@@ -105,7 +105,7 @@ def format_response(resp_json, method):
         if int(resp_json['Count']) == 0:
             print("All tasks complete")
         else:
-            print("Outstanding actions # ", resp_json['Count'])
+            print("Outstanding actions # {:<3}".format(resp_json['Count']))
             print("{:<20} {:<15} {:<45}".format('Status', 'Complete %', 'ServerProfile URI'))
             for row in resp_json['profile']:
                 print("{:<20} {:<15} {:<45}".format(row['status'], row['percentComplete'], row['serverProfileUri']))
